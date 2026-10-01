@@ -1,0 +1,30 @@
+# Build outputs and local SDK state
+bin/
+obj/
+/dist/
+/artifacts/
+/.dotnet/
+
+# Downloaded protocol reference sources
+/research/
+
+# IDE and user-specific files
+.vs/
+.idea/
+*.user
+*.suo
+
+# Portable app settings and diagnostic output
+settings.json
+settings.json.tmp
+profiles.json
+profiles.json.tmp
+*-test-result.txt
+probe-result.txt
+error.txt
+preview.png
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store

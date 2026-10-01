@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>RazerBookRGB</AssemblyName>
+    <RootNamespace>RazerBookRgb</RootNamespace>
+    <Version>1.2.0</Version>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\App.ico</ApplicationIcon>
+    <EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
+  </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="Assets\App.ico" />
+  </ItemGroup>
+</Project>
