@@ -117,6 +117,7 @@ public sealed class BookKeyboard : IDisposable
     // Do not switch to driver mode: that would alter Fn-key handling.
     public void KeepAlive() => Exchange(Protocol.Packet(0, 0x84, 0, 0));
     public void SetBrightness(byte value) => Exchange(Protocol.Packet(0x0E, 4, 1, value));
+    public byte ReadBrightness() => Exchange(Protocol.Packet(0x0E, 0x84, 1, 0))[10];
     public void Apply(Profile p)
     {
         p.Validate();

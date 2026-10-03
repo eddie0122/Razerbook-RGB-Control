@@ -55,6 +55,8 @@ public sealed class IdleLightingPolicy
     public bool IsDark { get; private set; }
     long lastHeartbeat;
     public void Applied(long now) { IsDark = false; lastHeartbeat = now; }
+    // Firmware, sleep, or lid events turned the backlight off behind our back; the next tick restores it.
+    public void LightingLost() => IsDark = true;
     public LightingAction Next(long now, long lastKeyAt, int timeoutSeconds, bool locked)
     {
         bool dark = locked || (timeoutSeconds > 0 && now - lastKeyAt >= (long)timeoutSeconds * 1000);
