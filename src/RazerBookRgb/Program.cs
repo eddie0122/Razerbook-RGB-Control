@@ -20,15 +20,15 @@ public static class Program
             if (args.Contains("--idle-hardware-test"))
             {
                 using var keyboard = BookKeyboard.Open();
-                byte original = keyboard.Exchange(Protocol.Packet(0x0E, 0x84, 1, 0))[10];
+                byte original = keyboard.ReadBrightness();
                 try
                 {
                     for (int i = 0; i < 8; i++) { keyboard.KeepAlive(); Thread.Sleep(1500); }
                     keyboard.SetBrightness(0);
-                    if (keyboard.Exchange(Protocol.Packet(0x0E, 0x84, 1, 0))[10] != 0) throw new IOException("Idle off brightness did not read back as zero.");
+                    if (keyboard.ReadBrightness() != 0) throw new IOException("Idle off brightness did not read back as zero.");
                 }
                 finally { keyboard.SetBrightness(original); }
-                if (keyboard.Exchange(Protocol.Packet(0x0E, 0x84, 1, 0))[10] != original) throw new IOException("Wake brightness readback differs.");
+                if (keyboard.ReadBrightness() != original) throw new IOException("Wake brightness readback differs.");
                 File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "idle-hardware-test-result.txt"), "PASS: eight keep-alives over 12 seconds acknowledged; idle brightness zero and original wake brightness verified by device readback. Original colors and brightness preserved. Physical illumination requires visual confirmation.");
                 return 0;
             }
@@ -36,7 +36,7 @@ public static class Program
             {
                 using var keyboard = BookKeyboard.Open();
                 string device = keyboard.Probe();
-                byte brightness = keyboard.Exchange(Protocol.Packet(0x0E, 0x84, 1, 0))[10];
+                byte brightness = keyboard.ReadBrightness();
                 var test = new Profile { Mode = "Per-key", Brightness = (int)Math.Round(brightness * 100.0 / 255) };
                 test.Colors[2 * 16 + 3] = "#0088FF";
                 try

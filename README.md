@@ -46,6 +46,7 @@ RazerBookRGB/
 ### Troubleshooting
 
 - Use **Reconnect** to check the device again. Failed device updates still save settings and retry every ten seconds when automatic restoration is enabled.
+- Each heartbeat reads the backlight brightness back from the keyboard. If firmware, sleep, or a lid event turned it off while it should be on, the app reapplies the saved lighting automatically. Turning the backlight fully off with the Fn brightness keys is overridden while the app runs; set brightness to 0 in the app instead.
 - Exit competing lighting controllers, such as Synapse or OpenRGB, if they overwrite colors or cause response errors.
 - Lighting may persist after exit until another controller, sleep, or reboot changes it. Idle timing returns to the laptop or other lighting software after exit.
 - The executable is unsigned and may display a Windows reputation prompt.

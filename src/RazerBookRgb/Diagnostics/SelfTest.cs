@@ -76,6 +76,9 @@ public static class SelfTest
         Check(timer.Next(10002, 10002, 0, false) == LightingAction.Restore, "unlock restores");
         timer.Applied(15000);
         Check(!timer.IsDark && timer.Next(15001, 15000, 5, false) == LightingAction.None, "apply resets policy");
+        timer.LightingLost();
+        Check(timer.Next(15002, 15000, 5, false) == LightingAction.Restore, "external off restores while active");
+        Check(timer.Next(15002, 15000, 0, true) == LightingAction.None, "external off while locked stays dark");
         var old = System.Text.Json.JsonSerializer.Deserialize<Profile>("{}")!;
         Check(old.IdleTimeoutSeconds == 0, "legacy profiles default to Never");
         old.IdleTimeoutSeconds = 30;

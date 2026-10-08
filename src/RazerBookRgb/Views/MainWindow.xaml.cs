@@ -299,14 +299,20 @@ public partial class MainWindow : Window
         try
         {
             var current = saved.Copy();
-            await Task.Run(() =>
+            byte level = await Task.Run(() =>
             {
                 using var keyboard = BookKeyboard.Open();
                 if (action == LightingAction.TurnOff) keyboard.SetBrightness(0);
                 else if (action == LightingAction.Restore) keyboard.Apply(current);
-                else keyboard.KeepAlive();
+                else { keyboard.KeepAlive(); return keyboard.ReadBrightness(); }
+                return (byte)0;
             });
             idlePolicy.Completed(action, Environment.TickCount64);
+            if (action == LightingAction.KeepAlive && level == 0 && current.Brightness > 0)
+            {
+                idlePolicy.LightingLost();
+                StatusText.Text = "Backlight was turned off externally · restoring";
+            }
         }
         catch (Exception ex) { nextIdleAttempt = Environment.TickCount64 + 10000; StatusText.Text = "Lighting timer: " + ex.Message; }
         finally { hardwareGate.Release(); }
